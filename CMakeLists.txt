@@ -22,6 +22,11 @@ set(EnginePath ${PROJECT_SOURCE_DIR}/Source/Engine)
 set(EditorPath ${PROJECT_SOURCE_DIR}/Source/Editor)
 set(LibraryPath ${PROJECT_SOURCE_DIR}/Source/ThirdParty)
 set(ResourcePath ${PROJECT_SOURCE_DIR}/Resource)
+
+set(VulkanSDKPath $ENV{VULKAN_SDK})
+message(STATUS "VulkanSDK environment variable is set to: ${VulkanSDKPath}")
+
+
 if(USE_LIBRARY)
 add_subdirectory(${LibraryPath}/Message)
 add_subdirectory(${LibraryPath}/glfw)
@@ -60,6 +65,10 @@ target_link_libraries(${Application_Name} PUBLIC
   target_link_libraries(${Application_Name} PUBLIC
     ${PROJECT_SOURCE_DIR}/Libs/freetype.lib
   )
+  target_link_libraries(${Application_Name} PUBLIC
+    ${VulkanSDKPath}/Lib/vulkan-1.lib
+  )
+
 target_include_directories(${Application_Name}  PUBLIC
   ${LibraryPath}/glad/include
   ${LibraryPath}/glfw/include
@@ -74,6 +83,7 @@ target_include_directories(${Application_Name}  PUBLIC
   ${EnginePath}/Platform
   ${EnginePath}/ThirdParty
   ${EnginePath}/Resource
+  ${VulkanSDKPath}/Include
 )
 
 target_compile_definitions(${Application_Name} PRIVATE
